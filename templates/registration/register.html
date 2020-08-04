@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   {% load static %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% block title %}<title>Register</title>{% endblock %}
+  <!-- Bootstrap core CSS-->
+  <link href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container" style="margin-top:100px;margin-left:360px;">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card border-dark">
+          <div class="card-body">
+            <h5 class="card-title text-center">Login</h5>
+            <form class="form-signin" method="post" action="#">
+              {% csrf_token %}
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="form-col">
+                      <label for="txtfname">First Name:</label>
+                  </div>
+                  <div class="form-col" style="margin-left:20px">
+                      <input type="text" id="txtfname" name="txtfname" value="{{ fname }}" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="form-col">
+                      <label for="txtlname">Last Name:</label>
+                  </div>
+                  <div class="form-col" style="margin-left:20px">
+                      <input type="text" id="txtlname" name="txtlname" value="{{ lname }}" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="form-col">
+                      <label for="txtemail">Email:</label>
+                  </div>
+                  <div class="form-col" style="margin-left:60px">
+                      <input type="text" id="txtemail" name="txtemail" value="{{ email }}" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="form-col">
+                      <label for="txtuser">UserName:</label>
+                  </div>
+                  <div class="form-col" style="margin-left:20px">
+                      <input type="text" id="txtuser" name="txtuser" value="{{ userID }}" required>
+                      <!--<a class="btn btn-sm btn-outline-dark" href="/register/userAvailability/"> Check Availability</a>-->
+                       {% if availability.status == "Available" %}
+                          <p class="text-white bg-success">Following user is available</p>
+                        {% elif availability.status == "Unavailable" %}
+                           <p class="text-white bg-danger">Following user is not available</p>
+                       {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="form-col">
+                      <label for="txtpwd">Password:</label>
+                  </div>
+                  <div class="form-col" style="margin-left:20px">
+                      <input type="Password" id="txtpwd" name="txtpwd" required>
+                  </div>
+                </div>
+              </div>
+             
+              <div class="form-group">
+                <div class="form-row">
+                  <button style="margin-left:180px;" type="Submit">Submit</button>
+                  <a class="btn btn-outline-dark text-black" style="margin-left:30px;" href="/accounts/login/?next=/"> Cancel</a>
+                </div>
+              </div>
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

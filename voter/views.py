@@ -39,6 +39,7 @@ def submit(request):
         return redirect('/home/Succesfull')
     else:
         return redirect('/home/Failed')
+
 @login_required
 def search(request):
     voterDistribution = VoterRegistration.objects.values('state').annotate(the_count=Count('state')).order_by().values_list('state','the_count')
@@ -58,8 +59,42 @@ def search(request):
             detail['stat'] = "exist"
             detail['Name'] = voter_details[0]['fields']['Name']
             detail['contact'] = voter_details[0]['fields']['Contact']
+            card_url = createIDcard(voter_details[0]['fields']['Contact'])
         return render (request,'index.html',{'user':detail,'voterState':voterState,'votercount':votercount})
     return render (request,'index.html',{'voterState':voterState,'votercount':votercount})
+
+def createIDcard(contact):
+    user = VoterRegistration.objects.filter(Contact=contact)
+    voter_details = serializers.serialize('python',user)
+    buffer = io.BytesIO()
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    width,height = 540*mm,860*mm
+    filename = str(contact) + ".pdf"
+    filepath = BASE_DIR + "\\static\\voterCard\\" + filename
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    c = canvas.Canvas(filepath)
+    pic = BASE_DIR + "\\media\\images\\" + (voter_details[0]['fields']['image'].split('/'))[1]
+    c.setPageSize((width, height))
+    c.setFont('Times-Bold', 26)
+    c.drawCentredString(180*mm, height-(60*mm),"Voter ID Card")
+    c.drawImage(pic, 60*mm, height-(180*mm), height=100*mm, width=100*mm)
+    c.setFont('Times-Bold',22)
+    c.drawString(180*mm, 760*mm, "Name :")
+    c.drawString(210*mm, 760*mm,voter_details[0]['fields']['Name'])
+    c.drawString(180*mm, 750*mm, "Date of Birth :")
+    d = str(voter_details[0]['fields']['DOB']).split("-")
+    Dob = d[2]+"/"+d[1]+"/"+d[0]
+    c.drawString(230*mm, 750*mm,Dob)
+    c.drawString(180*mm, 740*mm, "State:")
+    c.drawString(210*mm, 740*mm, voter_details[0]['fields']['state'])
+    c.drawString(180*mm, 730*mm, "Unique Voter ID :")
+    c.drawString(250*mm, 730*mm, str(voter_details[0]['pk']))
+    c.drawString(320*mm, 680*mm, "Authorized Signature")
+    c.showPage()
+    c.save()
+    return filename
+
 
 def generateID(request,contact):
     print(contact)

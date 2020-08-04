@@ -188,13 +188,13 @@
 
           <button type="submit">Submit</button>
 
-            
+
           </form>
         </div>
       </div>
     </div>
 
-    
+
     <div class="col-md-6">
     <!-- Download Voter Card-->
       <div class="card border-warning" style="margin-top:100px">
@@ -232,7 +232,7 @@
              <tbody>
              <tr>
                 <th>{{ user.Name }} </th>
-               <th><a href="{% static "voterCard/{{ user.contact }}.pdf" %}" target="_blank" rel="noopener">Downlaod</a></th>
+               <th><a href="{% static filePath %}" target="_blank" rel="noopener">Downlaod</a></th>
                 <!--<th><a href="/{{ user.contact }}/generate/">Downlaod</a></th>-->
              </tr>
              </tbody>
@@ -255,8 +255,8 @@
       </div>
     </div>
   </div>
-  
-  
+
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark" style="margin-top:30px">
@@ -283,8 +283,8 @@
       var bar_data = {{ votercount }};
     </script>
 
-  <!-- Adding js for charts  
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>--> 
+  <!-- Adding js for charts
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>-->
   <script src="{% static "custom chart\Chart.min.js" %}"></script>
   <script src="{% static "custom chart\voterDistribution.js" %}"></script>
 

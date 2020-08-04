@@ -60,13 +60,13 @@ def search(request):
             detail['Name'] = voter_details[0]['fields']['Name']
             detail['contact'] = voter_details[0]['fields']['Contact']
             card_url = createIDcard(voter_details[0]['fields']['Contact'])
-        return render (request,'index.html',{'user':detail,'voterState':voterState,'votercount':votercount})
+            card_path = "voterCard/" + card_url
+        return render (request,'index.html',{'user':detail,'voterState':voterState,'votercount':votercount,'filePath':card_path})
     return render (request,'index.html',{'voterState':voterState,'votercount':votercount})
 
 def createIDcard(contact):
     user = VoterRegistration.objects.filter(Contact=contact)
     voter_details = serializers.serialize('python',user)
-    buffer = io.BytesIO()
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     width,height = 540*mm,860*mm
     filename = str(contact) + ".pdf"
@@ -126,7 +126,7 @@ def generateID(request,contact):
     buffer.seek(0)
     print("ID Card GEnerated")
     return FileResponse(buffer, as_attachment=True, filename='voterCard.pdf')
-   
+
 def register(request):
     if request.method == 'POST':
         fname = request.POST['txtfname']
@@ -136,12 +136,12 @@ def register(request):
         email = request.POST['txtemail']
         try:
             user= User.objects.get(username=userID)
-            return render (request,'registration/register.html',{'fname':fname,'lname':lname,'userID':userID,'email':email,'availability':{'status':'Unavailable'}})            
+            return render (request,'registration/register.html',{'fname':fname,'lname':lname,'userID':userID,'email':email,'availability':{'status':'Unavailable'}})
         except User.DoesNotExist:
             user = User.objects.create_user(userID, email, pwd)
             user.first_name = fname
             user.last_name = lname
             user.save()
             return redirect ('/accounts/login/?next=/')
-        
+
     return render (request,'registration/register.html')

@@ -232,7 +232,8 @@
              <tbody>
              <tr>
                 <th>{{ user.Name }} </th>
-                <th><a href="/{{ user.contact }}/generate/">Downlaod</a></th>
+               <th><a href="{% static "voterCard/{{ user.contact }}.pdf" %}" target="_blank" rel="noopener">Downlaod</a></th>
+                <!--<th><a href="/{{ user.contact }}/generate/">Downlaod</a></th>-->
              </tr>
              </tbody>
             </table>

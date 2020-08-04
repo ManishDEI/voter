@@ -70,11 +70,11 @@ def createIDcard(contact):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     width,height = 540*mm,860*mm
     filename = str(contact) + ".pdf"
-    filepath = BASE_DIR + "\\static\\voterCard\\" + filename
+    filepath = BASE_DIR + "/static/voterCard/" + filename
     if os.path.exists(filepath):
         os.remove(filepath)
     c = canvas.Canvas(filepath)
-    pic = BASE_DIR + "\\media\\images\\" + (voter_details[0]['fields']['image'].split('/'))[1]
+    pic = BASE_DIR + "/media/images/" + (voter_details[0]['fields']['image'].split('/'))[1]
     c.setPageSize((width, height))
     c.setFont('Times-Bold', 26)
     c.drawCentredString(180*mm, height-(60*mm),"Voter ID Card")
@@ -104,7 +104,7 @@ def generateID(request,contact):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     width,height = 540*mm,860*mm
     c = canvas.Canvas(buffer)
-    pic = BASE_DIR + "\\media\\images\\" + (voter_details[0]['fields']['image'].split('/'))[1]
+    pic = BASE_DIR + "/media/images/" + (voter_details[0]['fields']['image'].split('/'))[1]
     c.setPageSize((width, height))
     c.setFont('Times-Bold', 26)
     c.drawCentredString(180*mm, height-(60*mm),"Voter ID Card")
